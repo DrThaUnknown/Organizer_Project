@@ -53,12 +53,12 @@ class MyWindow:
 
     def delete_note(self):
 
-        with open("C:\\Users\\domin\\Desktop\\notes.txt.txt", "r") as file:
+        with open("notes.txt.txt", "r") as file:
             lines = file.readlines()
 
         lines = [line for line in lines if self.date not in line]
 
-        with open("C:\\Users\\domin\\Desktop\\notes.txt.txt", "w") as file:
+        with open("notes.txt.txt", "w") as file:
             file.writelines(lines)
             print("Note deleted")
 
