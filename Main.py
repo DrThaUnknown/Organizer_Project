@@ -3,14 +3,13 @@ from customtkinter import *
 from tkcalendar import Calendar
 import datetime
 
-class MyWindow:
+class App:
     def __init__(self):
         self.root = CTk()
         self.root.title("Organizer")
         self.root.geometry("500x500")
         self.root.resizable(False, False)
         set_appearance_mode("dark")
-
 
         self.date_label = CTkLabel(self.root, text="Select Date: ",font=("Arial", 20), corner_radius=5, width=15, height=2)
         self.date_label.pack(padx=10, pady=10)
@@ -20,7 +19,6 @@ class MyWindow:
         self.input()
         self.save_button()
         self.del_button()
-
 
     def see_date(self, event=None):
         self.date = self.cal.get_date()
@@ -50,7 +48,6 @@ class MyWindow:
         self.button = customtkinter.CTkButton(master=self.frame, text="Delete Note", command=self.delete_note)
         self.button.configure(width=160, font=("Arial", 15), hover_color="#1045e3", fg_color="#2176ed")
         self.button.pack(padx=10, pady=10, side="left")
-
     def delete_note(self):
 
         with open("notes.txt.txt", "r") as file:
@@ -88,5 +85,5 @@ class MyWindow:
         self.entry = CTkTextbox(master=self.frame, font=("Arial", 15), border_color="#2176ed", border_width=2, width=350, height=100, )
         self.entry.pack(padx=5, pady=5)
 
-window = MyWindow()
+window = App()
 window.root.mainloop()
