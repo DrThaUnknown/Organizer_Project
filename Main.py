@@ -29,8 +29,8 @@ class App:
                             showweeknumbers=False, firstweekday="sunday")
         self.cal.configure(background="#1e1f1d", bordercolor="#1e1f1d", selectbackground="#2176ed", selectforeground="white",
                            headersbackground="#1e1f1d",headersforeground="white", cursor="hand2")
-        #self.cal.pack(padx=10, pady=10)
-        self.cal.pack(padx=10, pady=10, fill="both", expand=True)
+        self.cal.pack(padx=10, pady=10)
+        #self.cal.pack(padx=10, pady=10, fill="both", expand=True)
         self.cal.bind("<<CalendarSelected>>", self.see_date)
 
 
@@ -50,37 +50,43 @@ class App:
         self.button.pack(padx=10, pady=10, side="left")
     def delete_note(self):
 
-        with open("notes.txt.txt", "r") as file:
+        with open(r"C:\Users\domin\PycharmProjects\Organizer Project\Notes.txt", 'r') as file:
             lines = file.readlines()
 
         lines = [line for line in lines if self.date not in line]
 
-        with open("notes.txt.txt", "w") as file:
+        with open(r"C:\Users\domin\PycharmProjects\Organizer Project\Notes.txt", 'w') as file:
             file.writelines(lines)
             print("Note deleted")
 
 
     def save_note(self):
+        print(f"Date: {self.date}")
+        print(f"Note: {self.entry.get('1.0', customtkinter.END).strip()}")
         if not self.date:
             print("No date selected")
             return
         if not self.entry.get("1.0", customtkinter.END).strip():
             print("No text to save")
             return
-        for lines in open("C:\\Users\\domin\\Desktop\\notes.txt.txt", "r").readlines():
-            print(f"Checking line: {lines}")
-            if self.date in lines:
-                print("Date found in line")
-                self.entry.delete("1.0", customtkinter.END)
-                break
-        else:
+
+        if self.check_if_in_file():
+            print("Date found in line")
+            self.entry.delete("1.0", customtkinter.END)
+
+        elif not self.check_if_in_file():
             print("Date not found in any line, writing to file")
-            with open("C:\\Users\\domin\\Desktop\\notes.txt.txt", "a") as file:
+            with open(r"C:\Users\domin\PycharmProjects\Organizer Project\Notes.txt", 'a') as file:
                 text_to_retrieve = self.entry.get("1.0", customtkinter.END).strip()
                 text_to_write = f"{text_to_retrieve} - {self.date}"
                 print(f"Writing text: {text_to_write}")
                 file.write(text_to_write + '\n')
-
+                self.entry.delete("1.0", customtkinter.END)
+    def check_if_in_file(self):
+        with open(r"C:\Users\domin\PycharmProjects\Organizer Project\Notes.txt", 'r') as file:
+            for line in file:
+                if self.date in line:
+                    return True
     def input(self):
         self.entry = CTkTextbox(master=self.frame, font=("Arial", 15), border_color="#2176ed", border_width=2, width=350, height=100, )
         self.entry.pack(padx=5, pady=5)
